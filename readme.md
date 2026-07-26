@@ -259,9 +259,9 @@ B.E. Computer Science Engineering
 
 MERN Stack Developer
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/ashray0207
 
-LinkedIn: https://linkedin.com/in/yourprofile
+LinkedIn: https://www.linkedin.com/in/ashray-patil/
 
 ---
 
