@@ -106,17 +106,6 @@ TripVault
 
 ---
 
-## 👨‍💻 Developed By
-
-**Ashray Patil**
-
-Computer Science Engineering Student
-
-<<<<<<< HEAD
-MERN Stack Developer
-=======
-MERN Stack Developer
-
 GitHub: https://github.com/ashray0207
 
 LinkedIn: https://www.linkedin.com/in/ashray-patil/
