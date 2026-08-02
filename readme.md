@@ -112,4 +112,18 @@ TripVault
 
 Computer Science Engineering Student
 
+<<<<<<< HEAD
 MERN Stack Developer
+=======
+MERN Stack Developer
+
+GitHub: https://github.com/ashray0207
+
+LinkedIn: https://www.linkedin.com/in/ashray-patil/
+
+---
+
+## License
+
+This project is developed for learning purposes as part of a MERN Stack Internship assignment.
+>>>>>>> 5aa72f5983683e13a643fc512cbccf24104da06d
