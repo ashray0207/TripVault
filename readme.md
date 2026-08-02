@@ -75,18 +75,23 @@ TripVault
 
 ## 📸 Screenshots
 
-### Login Page
-(Add Screenshot)
+### Login
 
-### Register Page
-(Add Screenshot)
+![Login](screenshots/login.png)
+
+### Register
+
+![Register](screenshots/register.png)
 
 ### Dashboard
-(Add Screenshot)
+
+![Dashboard](screenshots/dashboard.png)
 
 ### Trip Management
-(Add Screenshot)
 
+![Trip](screenshots/trips.png)
+
+![Edit](screenshots/edit.png)
 ---
 
 ## 🔮 Future Enhancements
