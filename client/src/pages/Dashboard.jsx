@@ -2,68 +2,207 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
 
+import TripCard from "../components/TripCard";
+import TripForm from "../components/TripForm";
+
 function Dashboard() {
 
-    const [user, setUser] = useState({});
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
+  const [user, setUser] = useState({});
+  const [trips, setTrips] = useState([]);
+  const [selectedTrip, setSelectedTrip] = useState(null);
 
-        const fetchUser = async () => {
+  // -------------------------
+  // Fetch Logged-in User
+  // -------------------------
 
-            try {
+  const fetchUser = async () => {
 
-                const token = localStorage.getItem("token");
+    try {
 
-                const res = await API.get("/auth/me", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+      const res = await API.get("/auth/me");
 
-                setUser(res.data);
+      setUser(res.data);
 
-            } catch (err) {
+    } catch (err) {
 
-                localStorage.removeItem("token");
-                navigate("/login");
+      localStorage.removeItem("token");
+      navigate("/login");
 
-            }
+    }
 
-        };
+  };
 
-        fetchUser();
+  // -------------------------
+  // Fetch Trips
+  // -------------------------
 
-    }, []);
+  const fetchTrips = async () => {
 
-    const logout = () => {
+    try {
 
-        localStorage.removeItem("token");
-        navigate("/login");
+      const res = await API.get("/trips");
 
-    };
+      setTrips(res.data);
 
-    return (
-        <div className="dashboard">
+    } catch (err) {
 
-            <h1 className="logo">🌍 TripVault</h1>
+      console.log(err);
 
-            <div className="profile-card">
+    }
 
-            <h2>Welcome, {user.name} 👋</h2>
+  };
 
-            <p>Email: {user.email}</p>
+  useEffect(() => {
 
-            <p>Start creating your travel memories!</p>
+    fetchUser();
+    fetchTrips();
+
+  }, []);
+
+  // -------------------------
+  // Create / Update Trip
+  // -------------------------
+
+  const handleSubmit = async (trip) => {
+
+    try {
+
+      if (selectedTrip) {
+
+        await API.put(`/trips/${selectedTrip._id}`, trip);
+
+      } else {
+
+        await API.post("/trips", trip);
+
+      }
+
+      setSelectedTrip(null);
+
+      fetchTrips();
+
+    } catch (err) {
+
+      console.log(err);
+
+    }
+
+  };
+
+  // -------------------------
+  // Delete Trip
+  // -------------------------
+
+  const handleDelete = async (id) => {
+
+    const confirmDelete = window.confirm(
+      "Delete this trip?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+
+      await API.delete(`/trips/${id}`);
+
+      fetchTrips();
+
+    } catch (err) {
+
+      console.log(err);
+
+    }
+
+  };
+
+  // -------------------------
+  // Logout
+  // -------------------------
+
+  const logout = () => {
+
+    localStorage.removeItem("token");
+
+    navigate("/login");
+
+  };
+
+  return (
+
+    <div className="dashboard">
+
+        <div className="top-bar">
+
+            <div>
+
+                <h1>🌍 <span className="logo-text">TripVault</span></h1>
+
+                <p>
+                    Welcome back,
+                    <b> {user.name}</b>
+                </p>
+
+            </div>
 
             <button onClick={logout}>
                 Logout
             </button>
 
-            </div>
+        </div>
+
+        <div className="hero">
+
+            <h2>
+                ✈️ Plan Your Next Adventure
+            </h2>
+
+            <p>
+                Create memories. Save trips. Explore the world.
+            </p>
 
         </div>
-    );
+
+        <TripForm
+            onSubmit={handleSubmit}
+            selectedTrip={selectedTrip}
+        />
+
+        <div className="trip-grid">
+
+            {trips.length === 0 ? (
+
+                <div className="empty">
+
+                    <h1> 🌍 </h1>
+
+                    <h2>No Trips Yet </h2>
+
+                    <p> Create your first trip and start saving your travel memories.</p>
+
+                </div>
+
+            ) : (
+
+            trips.map((trip) => (
+
+                <TripCard
+                key={trip._id}
+                trip={trip}
+                onEdit={setSelectedTrip}
+                onDelete={handleDelete}
+                />
+
+            ))
+
+            )}
+
+      </div>
+
+    </div>
+
+  );
 
 }
 
